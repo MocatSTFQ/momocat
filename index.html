@@ -3,35 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Momocat @ AsKids</title>
+    <title>非正式小组 2 · 回归预告 | Momocat</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif !important; }
+        html {
+            background-color: #2d0a0a;
+        }
         body {
-            background-color: #f0f4fc;
+            background-color: #2d0a0a;
             font-family: 'Inter', sans-serif !important;
             -webkit-font-smoothing: antialiased;
             height: 100vh; display: flex; align-items: flex-start; justify-content: center;
-            overflow: hidden; color: #0b1e3c;
-            --blue-primary: #0071e3;
-            --blue-dark: #003c8f;
-            --blue-light: #e8f1fc;
+            overflow: hidden; color: #f8e8e8;
+            --red-primary: #c41e3a;
+            --red-dark: #7a0c1e;
+            --red-light: #f9d7dc;
+            --silver: #c0c5cc;
+            --silver-bright: #e8eaed;
+        }
+        body, div, span, h1, h2, h3, h4, h5, h6, p, a, button, input, select, textarea {
+            font-family: 'Inter', sans-serif !important;
         }
 
+        /* 胶囊导航栏 */
         .site-header {
             position: fixed;
             top: 10px; left: 50%; transform: translateX(-50%);
             width: auto; min-width: fit-content;
             padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 14px);
-            background-color: rgba(255, 255, 255, 0.65);
+            background-color: rgba(20, 6, 6, 0.55);
             backdrop-filter: blur(35px) saturate(200%);
             -webkit-backdrop-filter: blur(35px) saturate(200%);
             border-radius: 80px;
-            border: 0.8px solid rgba(0, 113, 227, 0.15);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.04), 0 8px 20px rgba(0,0,0,0.02);
+            border: 0.8px solid rgba(196, 30, 58, 0.25);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.1);
             z-index: 1000;
             display: flex; align-items: center; justify-content: center;
             gap: 0;
@@ -40,7 +49,7 @@
         }
         .header-title {
             font-weight: 700; font-size: clamp(1.4rem, 3.5vw, 2rem);
-            letter-spacing: -0.02em; color: #0b1e3c;
+            letter-spacing: -0.02em; color: #f8e8e8;
             padding: clamp(3px, 0.8vw, 6px) clamp(12px, 2vw, 18px);
             user-select: none; white-space: nowrap; flex-shrink: 0;
             cursor: pointer;
@@ -49,15 +58,15 @@
             transition: background-color 0.2s ease;
         }
         .header-title:hover {
-            background-color: rgba(0, 113, 227, 0.06);
+            background-color: rgba(255, 255, 255, 0.08);
         }
 
         .mode-switcher {
             display: flex; align-items: center;
-            background: rgba(255, 255, 255, 0.7); border-radius: 60px;
+            background: rgba(30, 10, 10, 0.65); border-radius: 60px;
             padding: 3px;
-            border: 0.5px solid rgba(0, 113, 227, 0.15);
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02);
+            border: 0.5px solid rgba(196, 30, 58, 0.3);
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.15);
             flex-shrink: 0; position: relative;
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
@@ -80,37 +89,41 @@
             padding: clamp(5px, 0.6vw, 8px) clamp(10px, 1.5vw, 18px);
             border-radius: 40px;
             font-size: clamp(0.7rem, 1vw, 0.9rem); font-weight: 500;
-            color: #5a6b82; cursor: pointer;
+            color: #c0c5cc; cursor: pointer;
             transition: all 0.25s cubic-bezier(0.2, 0.8, 0.3, 1.2);
             background: transparent; border: none; outline: none;
             user-select: none; white-space: nowrap; letter-spacing: 0.01em;
         }
-        .mode-option:hover { color: #0b1e3c; }
+        .mode-option:hover { color: #ffffff; }
         .mode-option.active {
-            background: #d9e9ff; color: #0071e3; font-weight: 600;
-            box-shadow: 0 1px 6px rgba(0, 113, 227, 0.15);
+            background: rgba(196, 30, 58, 0.25); color: #ff6b7a; font-weight: 600;
+            box-shadow: 0 1px 6px rgba(196, 30, 58, 0.2);
         }
         .mode-option svg {
             width: clamp(12px, 1vw, 16px); height: clamp(12px, 1vw, 16px);
             flex-shrink: 0; display: block; transition: stroke 0.2s, fill 0.2s;
         }
-        .mode-option:not([data-mode="home"]) svg * { stroke: #5a6b82; fill: none; }
-        .mode-option:not([data-mode="home"]).active svg * { stroke: #0071e3; fill: none; }
-        .mode-option[data-mode="home"] svg * { fill: #5a6b82; stroke: none; }
-        .mode-option[data-mode="home"].active svg * { fill: #0071e3; stroke: none; }
+        .mode-option:not([data-mode="home"]) svg * { stroke: #c0c5cc; fill: none; }
+        .mode-option:not([data-mode="home"]).active svg * { stroke: #ff6b7a; fill: none; }
+        .mode-option[data-mode="home"] svg * { fill: #c0c5cc; stroke: none; }
+        .mode-option[data-mode="home"].active svg * { fill: #ff6b7a; stroke: none; }
 
+        /* 主内容容器 */
         .main-content {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin; scrollbar-color: #a0b8d0 transparent;
+            scrollbar-width: thin; scrollbar-color: #7a3a3a transparent;
             overscroll-behavior-y: contain;
             padding-bottom: 40px;
+            background-color: #2d0a0a;
         }
 
-        .podcast-hero {
+        /* 回归预告 Hero */
+        .comeback-hero {
             width: 100%;
             min-height: 100vh;
-            background: linear-gradient(160deg, #d9e9ff 0%, #bedaf5 35%, #9bc4ed 70%, #7aadde 100%);
+            background-color: #2d0a0a;
+            background: linear-gradient(150deg, #1f0a0a 0%, #3d0c14 30%, #5c1a28 60%, #2d0a0a 100%);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -121,47 +134,70 @@
             overflow: hidden;
         }
 
-        .podcast-hero::before {
+        /* 红色光晕背景 */
+        .comeback-hero::before {
             content: "";
             position: absolute;
-            top: -15%;
-            left: -5%;
-            width: 110%;
-            height: 130%;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
             background: 
-                radial-gradient(circle at 25% 35%, rgba(255,255,255,0.25) 0%, transparent 55%),
-                radial-gradient(circle at 75% 60%, rgba(255,255,255,0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 80%, rgba(200,220,255,0.2) 0%, transparent 40%);
+                radial-gradient(circle at 30% 35%, rgba(220, 60, 80, 0.2) 0%, transparent 55%),
+                radial-gradient(circle at 70% 55%, rgba(180, 40, 60, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(255, 100, 120, 0.1) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
-            animation: floatBg 10s ease-in-out infinite alternate;
+            animation: pulseGlow 6s ease-in-out infinite alternate;
         }
-        @keyframes floatBg {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(1.5%, 1%) scale(1.04); }
+        @keyframes pulseGlow {
+            0% { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.03); }
         }
 
-        .wave-decoration {
+        /* 银色细线网格装饰 */
+        .silver-mesh {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 80px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C100,10 200,70 300,40 C400,10 500,70 600,40 C700,10 800,70 900,40 C1000,10 1100,70 1200,40 L1200,80 L0,80 Z' fill='rgba(255,255,255,0.3)'/%3E%3C/svg%3E") repeat-x;
-            background-size: 600px 80px;
-            opacity: 0.5;
-            z-index: 1;
-            animation: waveMove 15s linear infinite;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(192, 197, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(192, 197, 204, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
         }
-        @keyframes waveMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 600px 0; }
+
+        /* 银色碎片浮动 */
+        .silver-shard {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(192, 197, 204, 0.7);
+            border-radius: 1px;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatShard 8s linear infinite;
+            opacity: 0.3;
+        }
+        .silver-shard:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .silver-shard:nth-child(2) { top: 75%; left: 85%; animation-delay: 2s; }
+        .silver-shard:nth-child(3) { top: 40%; left: 75%; animation-delay: 4s; }
+        .silver-shard:nth-child(4) { top: 60%; left: 20%; animation-delay: 6s; }
+        @keyframes floatShard {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            25% { opacity: 0.5; }
+            50% { opacity: 0.1; }
+            75% { opacity: 0.4; }
+            100% { transform: translateY(-30px) rotate(180deg); opacity: 0; }
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 700px;
+            max-width: 720px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -169,64 +205,65 @@
             gap: 20px;
         }
 
-        .podcast-icon {
-            font-size: clamp(4rem, 12vw, 6rem);
-            filter: drop-shadow(0 4px 16px rgba(0,113,227,0.25));
-            animation: gentleBounce 3s infinite alternate;
-        }
-        @keyframes gentleBounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
-        }
-
-        .podcast-label {
-            font-size: 0.78rem;
+        .comeback-badge {
+            font-size: 0.75rem;
             letter-spacing: 5px;
             text-transform: uppercase;
-            color: #003c8f;
-            background: rgba(255,255,255,0.55);
+            color: #ffb3b3;
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 6px 20px;
+            padding: 6px 22px;
             border-radius: 60px;
             font-weight: 600;
-            border: 0.5px solid rgba(0,113,227,0.12);
+            border: 0.8px solid rgba(192, 197, 204, 0.25);
+            margin-bottom: -8px;
         }
 
-        .podcast-title {
-            font-size: clamp(3.5rem, 11vw, 6rem);
+        .comeback-title {
+            font-size: clamp(3.8rem, 12vw, 6.5rem);
             font-weight: 800;
             letter-spacing: -0.04em;
-            color: #001d3d;
+            color: #ffffff;
             line-height: 1.05;
-            text-shadow: 0 2px 10px rgba(255,255,255,0.6);
+            text-shadow: 0 2px 15px rgba(200, 30, 50, 0.6), 0 0 40px rgba(255, 80, 100, 0.3);
+        }
+        /* 英文副标题的样式保留但不使用 */
+        .comeback-title span {
+            display: block;
+            font-size: 0.45em;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #c0c5cc;
+            text-shadow: none;
+            margin-top: 6px;
         }
 
-        .podcast-tagline {
-            font-size: clamp(1rem, 2.8vw, 1.35rem);
-            color: #1e3b5a;
+        .comeback-slogan {
+            font-size: clamp(1.1rem, 3.2vw, 1.45rem);
+            color: #f0d0d4;
             font-weight: 500;
-            max-width: 480px;
-            opacity: 0.88;
+            max-width: 520px;
+            opacity: 0.9;
             line-height: 1.5;
         }
 
-        .podcast-intro {
+        .comeback-details {
             font-size: 0.93rem;
-            color: #2c4a6e;
+            color: #dbbdc3;
             max-width: 520px;
-            background: rgba(255,255,255,0.45);
+            background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             padding: 20px 26px;
             border-radius: 28px;
-            border: 0.8px solid rgba(0,113,227,0.1);
-            box-shadow: 0 4px 16px rgba(0,40,80,0.04);
+            border: 0.8px solid rgba(192, 197, 204, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             line-height: 1.65;
             text-align: center;
         }
 
-        .podcast-features {
+        .feature-pills {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
@@ -234,34 +271,34 @@
             max-width: 560px;
         }
         .feature-pill {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 0.6px solid rgba(0,113,227,0.1);
-            padding: 8px 18px;
+            border: 0.6px solid rgba(192, 197, 204, 0.2);
+            padding: 8px 20px;
             border-radius: 40px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            color: #003c8f;
+            color: #f0c0c8;
             white-space: nowrap;
         }
 
-        .launch-hint {
-            font-weight: 600;
-            color: #003c8f;
-            background: #ffffffcc;
+        .launch-info {
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(196, 30, 58, 0.2);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            padding: 8px 24px;
+            padding: 10px 28px;
             border-radius: 40px;
-            font-size: 0.92rem;
-            border: 0.5px solid rgba(0,113,227,0.2);
+            font-size: 0.95rem;
+            border: 0.8px solid rgba(192, 197, 204, 0.3);
             letter-spacing: 0.02em;
         }
 
         .cta-button {
-            background: #0071e3;
-            border: none;
+            background: #c41e3a;
+            border: 1px solid rgba(192, 197, 204, 0.4);
             color: white;
             padding: 14px 38px;
             border-radius: 60px;
@@ -269,60 +306,62 @@
             font-size: 1.05rem;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 8px 22px rgba(0,113,227,0.3);
+            box-shadow: 0 8px 22px rgba(196, 30, 58, 0.4);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
         .cta-button:hover {
-            background: #005bb5;
+            background: #a0182e;
+            border-color: rgba(255,255,255,0.3);
             transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(0,113,227,0.4);
+            box-shadow: 0 14px 30px rgba(196, 30, 58, 0.55);
         }
         .cta-button:active {
             transform: scale(0.97);
         }
 
+        /* 底部语言切换栏 */
         .lang-switch-bar {
             text-align: center;
             padding: 20px 16px;
             font-size: 0.9rem;
-            border-top: 1px solid rgba(0,113,227,0.1);
+            border-top: 1px solid rgba(192, 197, 204, 0.1);
             margin-top: -1px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(20, 6, 6, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: #2c4a6e;
+            color: #c0c5cc;
         }
         .lang-switch-bar .lang-active {
             font-weight: 600;
-            color: #0b1e3c;
+            color: #ffffff;
             cursor: default;
         }
         .lang-switch-bar .lang-divider {
             margin: 0 12px;
-            color: #b0c8dd;
+            color: #7a3a3a;
             user-select: none;
         }
         .lang-switch-bar a {
-            color: #5a6b82;
+            color: #c0c5cc;
             text-decoration: none;
             transition: color 0.2s;
             cursor: pointer;
         }
         .lang-switch-bar a:hover {
-            color: #0b1e3c;
+            color: #ffffff;
         }
 
         @media (max-width: 600px) {
-            .podcast-hero {
+            .comeback-hero {
                 padding: 24px 16px;
             }
             .hero-content {
                 gap: 16px;
             }
-            .podcast-intro {
+            .comeback-details {
                 padding: 16px 20px;
                 font-size: 0.88rem;
             }
@@ -345,28 +384,38 @@
     </header>
 
     <div class="main-content" id="mainContent">
-        <section class="podcast-hero">
-            <div class="wave-decoration"></div>
+        <section class="comeback-hero">
+            <!-- 银色装饰碎片 -->
+            <div class="silver-shard"></div>
+            <div class="silver-shard"></div>
+            <div class="silver-shard"></div>
+            <div class="silver-shard"></div>
+            <div class="silver-mesh"></div>
+            
             <div class="hero-content">
-                <div class="podcast-icon">🎙️</div>
-                <span class="podcast-label">Momocat 全新播客企划</span>
-                <h1 class="podcast-title">问题少年</h1>
-                <p class="podcast-tagline">一档中学生自己的思想实验播客。<br>不做科普、不说教、不打分——把习以为常的事，摊开来看看。</p>
-                <div class="podcast-features">
-                    <span class="feature-pill">💬 对话而非教学</span>
-                    <span class="feature-pill">🧠 跨学科拆解</span>
-                    <span class="feature-pill">❓ 元问题驱动</span>
-                    <span class="feature-pill">🔍 追问而非答案</span>
+                <div class="comeback-badge">一年一作 · 强势回归</div>
+                <h1 class="comeback-title">非正式小组 2</h1>
+                <!-- 英文副标题已删除 -->
+                <p class="comeback-slogan">
+                    更新的案子 · 更糟糕的队员<br>
+                    快来蹲一波更新，压压惊，压压镜。
+                </p>
+                <div class="feature-pills">
+                    <span class="feature-pill">📁 全新剧情线</span>
+                    <span class="feature-pill">🕵️ 原班人马扩编</span>
+                    <span class="feature-pill">📮 秋季信箱见</span>
+                    <span class="feature-pill">🎭 更荒诞的日常</span>
                 </div>
-                <div class="podcast-intro">
-                    “问题少年”不是有问题的少年，而是<strong>善于提问、敢于追问</strong>的少年。<br>
-                    每期邀请一位同龄人，用对话拆解那些看起来很"宏大"、但其实就在我们身边的话题。<br>
-                    线上通话录制 · 每期 15-30 分钟 · 由一名初中生主持。
+                <div class="comeback-details">
+                    去年那帮“非正式”的家伙又回来了。<br>
+                    这个八月，在 <strong>momocat.online</strong> 准时开更。<br>
+                    故事更离谱，推理更随意，友情更坚固。<br>
+                    提前收藏，别掉队。
                 </div>
-                <div class="launch-hint">🎧 即将上线 · 敬请期待</div>
-                <a href="#" class="cta-button" id="notifyBtn">
+                <div class="launch-info">🔥 2026年8月 · 即将上线</div>
+                <a href="#" class="cta-button" id="reminderBtn">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                    上线时提醒我
+                    开更时提醒我
                 </a>
             </div>
         </section>
@@ -411,11 +460,11 @@
             });
             setMode('home');
 
-            const notifyBtn = document.getElementById('notifyBtn');
-            if (notifyBtn) {
-                notifyBtn.addEventListener('click', (e) => {
+            const reminderBtn = document.getElementById('reminderBtn');
+            if (reminderBtn) {
+                reminderBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    alert('感谢关注！播客上线时我们会通过站内通知您。');
+                    alert('已记下！更新上线时我们会提醒你。');
                 });
             }
         })();
