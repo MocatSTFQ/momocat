@@ -279,7 +279,9 @@ button, input, a { font-family: inherit; }
 /* ============ 内容区 ============ */
 .content-grid {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 4vw, 40px);
   padding: var(--pad) var(--pad) 0;
   max-width: 1400px;
   margin: 0 auto;
@@ -354,7 +356,6 @@ button, input, a { font-family: inherit; }
 }
 .preview-card:active { transform: translateY(-2px) scale(0.995); }
 
-/* 左侧文字区 */
 .card-body {
   position: relative;
   z-index: 3;
@@ -389,7 +390,6 @@ button, input, a { font-family: inherit; }
 }
 .preview-card:hover .card-cta { opacity: 0.8; transform: translateY(0); }
 
-/* 右侧截图区（在黑色卡片内部） */
 .card-image-wrap {
   position: relative;
   z-index: 3;
@@ -400,7 +400,7 @@ button, input, a { font-family: inherit; }
   box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.10);
   transform: rotate(3deg) translateY(-4px);
   transition: transform 0.55s cubic-bezier(.2,.8,.3,1);
-  -webkit-mask-image: -webkit-radial-gradient(white, black); /* 修复圆角溢出 */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 .preview-card:hover .card-image-wrap {
   transform: rotate(0deg) translateY(-8px) scale(1.02);
@@ -413,6 +413,78 @@ button, input, a { font-family: inherit; }
   object-fit: cover;
   border-radius: inherit;
 }
+
+/* ============ 通用音乐卡片 ============ */
+.music-card {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  aspect-ratio: 16 / 9;
+  min-height: 220px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  background: #111;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 18px 40px rgba(10, 10, 20, 0.14);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: clamp(20px, 4vw, 32px);
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.45s cubic-bezier(.2,.8,.3,1), box-shadow 0.45s cubic-bezier(.2,.8,.3,1);
+  animation: cardIn 0.7s cubic-bezier(.2,.8,.3,1) backwards;
+}
+.music-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 28px 60px rgba(10, 10, 20, 0.20);
+}
+.music-card:active { transform: translateY(-2px) scale(0.995); }
+
+.music-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.1) 100%);
+  transition: background 0.3s;
+  z-index: 1;
+}
+.music-card:hover::before {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.1) 100%);
+}
+
+.music-card-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.music-card-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.music-card-logo {
+  position: relative;
+  z-index: 2;
+  width: clamp(160px, 35%, 280px);
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  transition: transform 0.45s cubic-bezier(.2,.8,.3,1);
+}
+.music-card:hover .music-card-logo {
+  transform: scale(1.03);
+}
+
+.music-card-illit { animation-delay: 0.16s; }
+.music-card-ive { animation-delay: 0.24s; }
 
 /* ============ 底部语言栏 ============ */
 .lang-switch-bar {
@@ -535,31 +607,227 @@ button, input, a { font-family: inherit; }
   font-variant-numeric: tabular-nums;
 }
 
-.fc-close {
-  position: absolute;
-  top: 20px;
-  right: 22px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 15px;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 10;
+/* ============ 沉浸式音乐播放器弹窗 ============ */
+.music-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 250;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s, color 0.2s, transform 0.25s;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s, opacity 0.35s ease;
 }
-.fc-close:hover {
-  background: rgba(255, 255, 255, 0.16);
+.music-overlay.show { visibility: visible; opacity: 1; }
+
+.music-player {
+  background: transparent;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 36px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.15) inset;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+  overflow: hidden;
+  isolation: isolate;
+}
+.music-overlay.show .music-player { transform: translateY(0) scale(1); }
+
+/* 弥散背景层 */
+.music-player::before {
+  content: '';
+  position: absolute;
+  inset: -50px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(45px) brightness(0.6) saturate(1.2);
+  z-index: -1;
+  transition: background-image 0.5s ease;
+}
+
+.music-cover-wrap {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  background: #1a1a1a;
+}
+.music-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.music-info {
+  text-align: center;
+  margin-top: -4px;
+}
+.music-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.music-artist {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.music-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.music-time {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+  width: 34px;
+  text-align: center;
+}
+.music-progress {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.music-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.music-progress::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.music-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, color 0.2s;
+  padding: 0;
+}
+.music-btn:hover { color: #fff; }
+.music-btn:active { transform: scale(0.9); }
+.music-btn.play {
+  width: 52px;
+  height: 52px;
+  background: #ffffff;
+  color: #1d1d1f;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  padding-left: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+.music-btn.play.playing {
+  padding-left: 0;
+}
+.music-btn.play:hover {
+  background: #f0f0f0;
+}
+
+/* ============ 优化后的 Playlist 外观 ============ */
+.music-playlist {
+  list-style: none;
+  padding: 8px;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  scrollbar-width: none;
+}
+.music-playlist::-webkit-scrollbar {
+  display: none;
+}
+
+.music-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.music-track:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  transform: rotate(90deg);
+  transform: translateX(3px);
 }
-.fc-close:active { transform: rotate(90deg) scale(0.92); }
+.music-track.active {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 600;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.music-track span:first-child {
+  display: flex;
+  align-items: center;
+}
+.music-track.active span:first-child::before {
+  content: '♪';
+  margin-right: 8px;
+  font-size: 0.9rem;
+  color: var(--blue);
+  animation: notePulse 1.5s infinite alternate;
+}
+
+@keyframes notePulse {
+  from { opacity: 0.7; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(-2px); }
+}
+
+.music-track-time {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+.music-track.active .music-track-time {
+  color: rgba(255, 255, 255, 0.8);
+}
 
 /* ============ 响应式 ============ */
 @media (max-width: 768px) {
@@ -575,10 +843,13 @@ button, input, a { font-family: inherit; }
   }
   .card-image-wrap {
     width: clamp(180px, 55vw, 240px);
-    transform: rotate(0deg) translateY(0); /* 移动端取消倾斜 */
+    transform: rotate(0deg) translateY(0);
   }
   .preview-card:hover .card-image-wrap {
     transform: translateY(-4px) scale(1.02);
+  }
+  .music-card {
+    padding: 24px;
   }
 }
 
@@ -586,7 +857,7 @@ button, input, a { font-family: inherit; }
   .hero { min-height: 380px; }
   .hero-kicker { letter-spacing: 0.16em; }
   .card-cta { opacity: 0.6; transform: none; }
-  .fc-close { top: 14px; right: 16px; width: 36px; height: 36px; }
+  .music-player { padding: 24px 20px; border-radius: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -614,13 +885,13 @@ button, input, a { font-family: inherit; }
       </svg>
       <span>主页</span>
     </button>
-    <button class="mode-option" data-mode="covalent" aria-label="共用电子对">
+    <button class="mode-option" data-mode="covalent" aria-label="共用电子队">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="8" cy="12" r="4"/>
         <circle cx="16" cy="12" r="4"/>
       </svg>
-      <span>共用电子对</span>
+      <span>共用电子队</span>
     </button>
   </div>
 </header>
@@ -645,22 +916,29 @@ button, input, a { font-family: inherit; }
   <!-- 内容区 -->
   <section class="content-grid">
     
-    <!-- Focuscam Preview 卡片 (包含截图) -->
+    <!-- Focuscam Preview 卡片 -->
     <article class="preview-card" id="focuscamCard" role="button" tabindex="0"
              aria-label="打开 Focuscam 预告">
-      
-      <!-- 左侧文字 -->
       <div class="card-body">
         <div class="card-kicker">Focuscam · 2027</div>
         <h2 class="card-title">Focuscam<br>Preview</h2>
         <div class="card-cta">点击预览 →</div>
       </div>
-
-      <!-- 右侧截图 -->
       <div class="card-image-wrap">
         <img src="focuscampicpreview.jpg" alt="Focuscam 界面截图" class="focuscam-image">
       </div>
-      
+    </article>
+
+    <!-- ILLIT 音乐卡片 -->
+    <article class="music-card music-card-illit" id="musicCardIllit" role="button" tabindex="0" aria-label="打开 ILLIT 音乐播放器">
+      <video src="illitmini5mv.mp4" class="music-card-video" autoplay muted loop playsinline></video>
+      <img src="illitlogo.jpg" alt="ILLIT Logo" class="music-card-logo">
+    </article>
+
+    <!-- IVE 音乐卡片 (视频背景) -->
+    <article class="music-card music-card-ive" id="musicCardIve" role="button" tabindex="0" aria-label="打开 IVE 音乐播放器">
+      <video src="IVEmini5mv.mp4" class="music-card-video" autoplay muted loop playsinline></video>
+      <img src="ivelogo.jpg" alt="IVE Logo" class="music-card-logo">
     </article>
 
   </section>
@@ -674,7 +952,6 @@ button, input, a { font-family: inherit; }
 
 <!-- ========== Focuscam 全屏弹窗 ========== -->
 <div class="fc-overlay" id="fcOverlay" role="dialog" aria-modal="true" aria-label="Focuscam 预告">
-  <button class="fc-close" id="fcClose" type="button" aria-label="关闭">✕</button>
   <div class="fc-stage" id="fcStage">
     <div class="fc-final">
       <div class="fc-word" aria-label="Focuscam">F<span class="fc-o" aria-hidden="true"></span>cuscam</div>
@@ -684,12 +961,41 @@ button, input, a { font-family: inherit; }
   </div>
 </div>
 
+<!-- ========== 沉浸式音乐播放器弹窗 ========== -->
+<div class="music-overlay" id="musicOverlay" role="dialog" aria-modal="true" aria-label="音乐播放器">
+  <div class="music-player" id="musicPlayerBox">
+    
+    <div class="music-cover-wrap">
+      <img src="" alt="专辑封面" class="music-cover" id="musicCoverImg">
+    </div>
+    
+    <div class="music-info">
+      <h3 class="music-title" id="musicTrackTitle">-</h3>
+      <p class="music-artist" id="musicArtistName">-</p>
+    </div>
+    
+    <div class="music-progress-wrap">
+      <span class="music-time current" id="musicCurrentTime">0:00</span>
+      <input type="range" class="music-progress" id="musicProgress" min="0" max="100" value="0" step="0.1">
+      <span class="music-time total" id="musicTotalTime">0:00</span>
+    </div>
+    
+    <div class="music-controls">
+      <button class="music-btn" id="musicPrev" aria-label="上一首">⏮</button>
+      <button class="music-btn play" id="musicPlayBtn" aria-label="播放">▶</button>
+      <button class="music-btn" id="musicNext" aria-label="下一首">⏭</button>
+    </div>
+    
+    <ul class="music-playlist" id="musicPlaylist"></ul>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
 
   /* ============================================================
-     设备检测（保留扩展能力）
+     设备检测
   ============================================================ */
   const RubberEngine = {
     breakpoints: { phone: 600, tablet: 1024, desktop: 1440 },
@@ -722,7 +1028,7 @@ button, input, a { font-family: inherit; }
   const SmoothScrollEngine = { init() {} };
 
   /* ============================================================
-     导航胶囊：悬停 / 点击展开
+     导航胶囊
   ============================================================ */
   function initCapsuleNav() {
     const header = document.getElementById('siteHeader');
@@ -751,7 +1057,7 @@ button, input, a { font-family: inherit; }
   }
 
   /* ============================================================
-     模式切换：主页 / 共用电子对
+     模式切换
   ============================================================ */
   function initModeSwitcher() {
     const options = document.querySelectorAll('.mode-option');
@@ -763,7 +1069,6 @@ button, input, a { font-family: inherit; }
         e.stopPropagation();
         const mode = btn.dataset.mode;
 
-        // 共用电子对 → 跳转到 momocat.online/covalent
         if (mode === 'covalent') {
           window.location.href = 'https://momocat.online/covalent';
           return;
@@ -788,34 +1093,28 @@ button, input, a { font-family: inherit; }
   function initFocuscam() {
     const overlay  = document.getElementById('fcOverlay');
     const stage    = document.getElementById('fcStage');
-    const closeBtn = document.getElementById('fcClose');
     const triggers = [
       document.getElementById('heroDetailBtn'),
       document.getElementById('focuscamCard')
     ];
 
-    if (!overlay || !stage || !closeBtn) return;
+    if (!overlay || !stage) return;
 
-    /* 生成乱飞的 emoji / 图画 */
     function spawnEmojis() {
       stage.querySelectorAll('.fc-emoji').forEach(el => el.remove());
-
       const count = 26;
       for (let i = 0; i < count; i++) {
         const el = document.createElement('span');
         el.className = 'fc-emoji';
         el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-
-        const size = 1.4 + Math.random() * 3.2;            // rem
-        const rot  = (Math.random() * 70 - 35).toFixed(1); // deg
-        const dly  = (Math.random() * 0.6).toFixed(2);     // s
-
+        const size = 1.4 + Math.random() * 3.2;
+        const rot  = (Math.random() * 70 - 35).toFixed(1);
+        const dly  = (Math.random() * 0.6).toFixed(2);
         el.style.setProperty('--s', size.toFixed(2) + 'rem');
         el.style.setProperty('--r', rot + 'deg');
         el.style.setProperty('--d', dly + 's');
         el.style.left = (3 + Math.random() * 94).toFixed(1) + '%';
         el.style.top  = (6 + Math.random() * 88).toFixed(1) + '%';
-
         stage.appendChild(el);
       }
     }
@@ -843,17 +1142,260 @@ button, input, a { font-family: inherit; }
       });
     });
 
-    closeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      close();
-    });
-
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay || e.target === stage) close();
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && overlay.classList.contains('show')) close();
+    });
+  }
+
+  /* ============================================================
+     通用音乐播放器模块
+  ============================================================ */
+  function initMusicPlayerModule() {
+    const musicOverlay = document.getElementById('musicOverlay');
+    const musicPlayerBox = document.getElementById('musicPlayerBox');
+    
+    const musicPlayBtn = document.getElementById('musicPlayBtn');
+    const musicPrevBtn = document.getElementById('musicPrev');
+    const musicNextBtn = document.getElementById('musicNext');
+    const musicProgress = document.getElementById('musicProgress');
+    const musicCurrentTime = document.getElementById('musicCurrentTime');
+    const musicTotalTime = document.getElementById('musicTotalTime');
+    const musicTrackTitle = document.getElementById('musicTrackTitle');
+    const musicArtistName = document.getElementById('musicArtistName');
+    const musicCoverImg = document.getElementById('musicCoverImg');
+    const musicPlaylist = document.getElementById('musicPlaylist');
+
+    const audio = new Audio();
+    audio.preload = 'auto';
+
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+    let isSeeking = false;
+    let activeConfig = null;
+
+    function formatTime(seconds) {
+      if (!seconds || isNaN(seconds) || seconds < 0) return '0:00';
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function getTrackDuration(track) {
+      if (track.end === 9999 && audio.duration && !isNaN(audio.duration)) {
+        return Math.max(0, audio.duration - track.start);
+      }
+      return track.end - track.start;
+    }
+
+    const configs = {
+      illit: {
+        audioSrc: 'ILLITmini5.mp3',
+        coverSrc: 'illitmini5.jpg',
+        artist: 'ILLIT',
+        tracks: [
+          { title: 'super in love', start: 0, end: 179 },
+          { title: 'more', start: 179, end: 352 },
+          { title: "you're under arrest", start: 352, end: 533 },
+          { title: 'pop', start: 533, end: 9999 }
+        ]
+      },
+      ive: {
+        audioSrc: 'IVEmini5.mp3',
+        coverSrc: 'ivemini5.jpg',
+        artist: 'IVE',
+        tracks: [
+          { title: 'Looks Can Kill', start: 0, end: 9999 }
+        ]
+      }
+    };
+
+    function setupPlayer(configKey) {
+      activeConfig = configs[configKey];
+      audio.src = activeConfig.audioSrc;
+      musicCoverImg.src = activeConfig.coverSrc;
+      musicArtistName.textContent = activeConfig.artist;
+      
+      const styleTag = document.getElementById('dynamic-bg-style') || document.createElement('style');
+      styleTag.id = 'dynamic-bg-style';
+      styleTag.innerHTML = `.music-player::before { background-image: url('${activeConfig.coverSrc}'); }`;
+      document.head.appendChild(styleTag);
+
+      musicPlaylist.innerHTML = '';
+      activeConfig.tracks.forEach((track, i) => {
+        const li = document.createElement('li');
+        li.className = 'music-track' + (i === 0 ? ' active' : '');
+        let durationText = track.end === 9999 ? '--:--' : formatTime(track.end - track.start);
+        
+        li.innerHTML = `
+          <span>${track.title}</span>
+          <span class="music-track-time">${durationText}</span>
+        `;
+        li.addEventListener('click', () => {
+          loadTrack(i);
+          playTrack();
+        });
+        musicPlaylist.appendChild(li);
+      });
+
+      loadTrack(0);
+      
+      if (activeConfig.tracks.length === 1) {
+        musicPrevBtn.style.opacity = '0.3';
+        musicNextBtn.style.opacity = '0.3';
+      } else {
+        musicPrevBtn.style.opacity = '1';
+        musicNextBtn.style.opacity = '1';
+      }
+    }
+
+    audio.addEventListener('loadedmetadata', () => {
+      if (!activeConfig) return;
+      const totalDur = audio.duration;
+      const lastTrack = activeConfig.tracks[activeConfig.tracks.length - 1];
+      
+      if (lastTrack.end === 9999 && !isNaN(totalDur)) {
+        const realDuration = totalDur - lastTrack.start;
+        const items = document.querySelectorAll('.music-track');
+        const lastItem = items[items.length - 1];
+        if (lastItem) {
+          lastItem.querySelector('.music-track-time').textContent = formatTime(realDuration);
+        }
+        if (currentTrackIndex === activeConfig.tracks.length - 1) {
+          musicTotalTime.textContent = formatTime(realDuration);
+        }
+      }
+    });
+
+    function loadTrack(index) {
+      if (!activeConfig) return;
+      currentTrackIndex = index;
+      const track = activeConfig.tracks[index];
+      
+      audio.currentTime = track.start;
+      musicTrackTitle.textContent = track.title;
+      
+      const duration = getTrackDuration(track);
+      musicTotalTime.textContent = formatTime(duration);
+      
+      document.querySelectorAll('.music-track').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+      
+      musicProgress.value = 0;
+      musicCurrentTime.textContent = '0:00';
+    }
+
+    function playTrack() {
+      audio.play().then(() => {
+        isPlaying = true;
+        musicPlayBtn.textContent = '⏸';
+        musicPlayBtn.classList.add('playing');
+      }).catch(e => {
+        console.log('Playback failed:', e);
+      });
+    }
+
+    function pauseTrack() {
+      audio.pause();
+      isPlaying = false;
+      musicPlayBtn.textContent = '▶';
+      musicPlayBtn.classList.remove('playing');
+    }
+
+    function nextTrack() {
+      if (!activeConfig) return;
+      let next = currentTrackIndex + 1;
+      if (next >= activeConfig.tracks.length) next = 0;
+      loadTrack(next);
+      if (isPlaying) playTrack();
+    }
+
+    function prevTrack() {
+      if (!activeConfig) return;
+      let prev = currentTrackIndex - 1;
+      if (prev < 0) prev = activeConfig.tracks.length - 1;
+      loadTrack(prev);
+      if (isPlaying) playTrack();
+    }
+
+    musicPlayBtn.addEventListener('click', () => {
+      if (isPlaying) pauseTrack();
+      else playTrack();
+    });
+    musicPrevBtn.addEventListener('click', prevTrack);
+    musicNextBtn.addEventListener('click', nextTrack);
+
+    musicProgress.addEventListener('input', () => {
+      if (!activeConfig) return;
+      isSeeking = true;
+      const track = activeConfig.tracks[currentTrackIndex];
+      const duration = getTrackDuration(track);
+      const relativeTime = (musicProgress.value / 100) * duration;
+      musicCurrentTime.textContent = formatTime(relativeTime);
+    });
+
+    musicProgress.addEventListener('change', () => {
+      if (!activeConfig) return;
+      const track = activeConfig.tracks[currentTrackIndex];
+      const duration = getTrackDuration(track);
+      const relativeTime = (musicProgress.value / 100) * duration;
+      audio.currentTime = track.start + relativeTime;
+      isSeeking = false;
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (isSeeking || !activeConfig) return;
+      const track = activeConfig.tracks[currentTrackIndex];
+      const current = audio.currentTime;
+      
+      if (current >= track.end) {
+        nextTrack();
+        return;
+      }
+      
+      const relativeTime = Math.max(0, current - track.start);
+      const duration = getTrackDuration(track);
+      
+      if (duration > 0) {
+        musicProgress.value = (relativeTime / duration) * 100;
+      }
+      musicCurrentTime.textContent = formatTime(relativeTime);
+    });
+
+    function openMusic(configKey) {
+      setupPlayer(configKey);
+      musicOverlay.classList.add('show');
+    }
+
+    function closeMusic() {
+      musicOverlay.classList.remove('show');
+      pauseTrack();
+    }
+
+    const cardIllit = document.getElementById('musicCardIllit');
+    cardIllit.addEventListener('click', () => openMusic('illit'));
+    cardIllit.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMusic('illit'); }
+    });
+
+    const cardIve = document.getElementById('musicCardIve');
+    cardIve.addEventListener('click', () => openMusic('ive'));
+    cardIve.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMusic('ive'); }
+    });
+
+    musicOverlay.addEventListener('click', (e) => {
+      if (e.target === musicOverlay) closeMusic();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && musicOverlay.classList.contains('show')) {
+        closeMusic();
+      }
     });
   }
 
@@ -866,6 +1408,7 @@ button, input, a { font-family: inherit; }
     initCapsuleNav();
     initModeSwitcher();
     initFocuscam();
+    initMusicPlayerModule();
   }
 
   window.RubberEngine = RubberEngine;
