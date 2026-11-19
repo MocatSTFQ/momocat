@@ -34,7 +34,6 @@ body {
   align-items: flex-start;
   justify-content: center;
 }
-
 /* ========== 顶部胶囊导航 ========== */
 .site-header {
   position: fixed;
@@ -84,7 +83,6 @@ body {
   box-shadow: 0 1px 6px rgba(0, 113, 227, 0.10);
 }
 .mode-option svg { width: clamp(12px, 1vw, 15px); height: clamp(12px, 1vw, 15px); flex-shrink: 0; display: block; stroke: currentColor; fill: none; }
-
 /* ========== 主滚动容器 ========== */
 .main-content {
   position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
@@ -93,7 +91,6 @@ body {
   overscroll-behavior-y: contain;
 }
 .main-content::-webkit-scrollbar { display: none; }
-
 /* ========== Hero 区域 ========== */
 .hero {
   position: relative; width: 100%; min-height: 45vh;
@@ -114,7 +111,6 @@ body {
   0% { transform: translate3d(0, 0, 0) scale(1); }
   100% { transform: translate3d(0, -3%, 0) scale(1.07); }
 }
-
 .hero-kicker {
   position: absolute;
   top: clamp(20px, 4vw, 40px);
@@ -126,7 +122,6 @@ body {
   color: var(--ink-3);
   z-index: 3;
 }
-
 .hero-title-img {
   position: relative; z-index: 3; width: clamp(240px, 45vw, 360px); height: auto;
   margin-bottom: 10px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.06));
@@ -137,7 +132,6 @@ body {
   animation: fadeUp 0.8s cubic-bezier(.2,.8,.3,1) 0.15s forwards;
 }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-
 /* 组照展示 */
 .group-photo-container {
   position: relative; z-index: 3;
@@ -153,11 +147,9 @@ body {
   transition: transform 0.5s cubic-bezier(.2,.8,.3,1);
 }
 .group-photo-container:hover .group-photo { transform: scale(1.03); }
-
 /* ========== 成员展示区 (网格) ========== */
 .members-section { padding: clamp(30px, 5vw, 60px) var(--pad); max-width: 1200px; margin: 0 auto; position: relative; z-index: 10;}
 .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-
 .member-card {
   background: rgba(251, 251, 253, 0.65); backdrop-filter: blur(35px);
   border-radius: 32px; border: 0.8px solid rgba(0,0,0,0.08);
@@ -165,12 +157,11 @@ body {
   text-align: center; transition: transform 0.3s cubic-bezier(.2,.8,.3,1), box-shadow 0.3s, background 0.3s;
   cursor: pointer;
 }
-.member-card:hover { 
-  transform: translateY(-6px); 
-  box-shadow: 0 12px 30px rgba(0,0,0,0.08); 
-  background: #fff; 
+.member-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  background: #fff;
 }
-
 /* 专属卡片颜色 */
 .card-lxy { background: linear-gradient(135deg, rgba(224, 242, 254, 0.85), rgba(186, 230, 253, 0.85)); border-color: rgba(186, 230, 253, 0.5); }
 .card-lxy:hover { background: linear-gradient(135deg, #e0f2fe, #bae6fd); box-shadow: 0 12px 30px rgba(56, 189, 248, 0.15); }
@@ -180,7 +171,6 @@ body {
 .card-ybn:hover { background: linear-gradient(135deg, #e0e7ff, #f3e8ff); box-shadow: 0 12px 30px rgba(168, 85, 247, 0.15); }
 .card-xr  { background: linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 0.95)); border-color: rgba(219, 234, 254, 0.6); }
 .card-xr:hover { background: linear-gradient(135deg, #eff6ff, #ffffff); box-shadow: 0 12px 30px rgba(59, 130, 246, 0.12); }
-
 .member-avatar {
   width: clamp(80px, 12vw, 120px); height: clamp(80px, 12vw, 120px);
   margin: 0 auto 20px; border-radius: 24px; object-fit: contain;
@@ -188,15 +178,13 @@ body {
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05));
 }
 .member-card:hover .member-avatar { transform: scale(1.1) rotate(5deg); }
-
 .member-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-.member-role { 
-  font-size: 0.85rem; color: var(--ink-2); font-weight: 600; 
-  background: rgba(255, 255, 255, 0.7); padding: 4px 12px; 
-  border-radius: 20px; display: inline-block; 
+.member-role {
+  font-size: 0.85rem; color: var(--ink-2); font-weight: 600;
+  background: rgba(255, 255, 255, 0.7); padding: 4px 12px;
+  border-radius: 20px; display: inline-block;
   box-shadow: 0 2px 6px rgba(0,0,0,0.02);
 }
-
 /* ========== 全屏查看器 Modal ========== */
 .viewer-overlay {
   position: fixed; inset: 0; z-index: 1500;
@@ -207,42 +195,52 @@ body {
   visibility: hidden; opacity: 0; transition: visibility 0.3s, opacity 0.35s ease;
 }
 .viewer-overlay.show { visibility: visible; opacity: 1; }
-
 .viewer-glow {
   position: absolute; width: 70vmin; height: 70vmin;
   border-radius: 50%; filter: blur(80px); z-index: 0;
   transition: background 0.6s ease;
 }
-
 .viewer-card {
   position: relative; z-index: 10;
-  width: 320px; height: 400px;
+  width: 340px;
+  max-height: 85vh;
+  overflow-y: auto;
   border-radius: 40px; border: 1px solid rgba(255,255,255,0.8);
   box-shadow: 0 24px 60px rgba(0,0,0,0.12);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  display: flex; flex-direction: column; align-items: center;
+  padding:32px 24px;
   transition: transform 0.5s cubic-bezier(.2,.8,.3,1), background 0.5s, opacity 0.3s;
 }
 .viewer-card.switching {
   transform: scale(0.9) translateY(10px);
   opacity: 0.5;
 }
-
 .viewer-avatar {
-  width: 160px; height: 160px; margin-bottom: 30px;
+  width: 140px; height: 140px; margin-bottom: 20px;
   border-radius: 32px; object-fit: contain;
   filter: drop-shadow(0 12px 24px rgba(0,0,0,0.1));
   transition: transform 0.4s cubic-bezier(.2,.8,.3,1.2);
 }
 .viewer-card:hover .viewer-avatar { transform: scale(1.05); }
-
-.viewer-name { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: var(--ink); }
-.viewer-role { 
-  font-size: 1rem; color: var(--ink-2); font-weight: 600; 
-  background: rgba(255, 255, 255, 0.8); padding: 8px 20px; 
-  border-radius: 24px; display: inline-block; 
+.viewer-name { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--ink); }
+.viewer-role {
+  font-size: 1rem; color: var(--ink-2); font-weight: 600;
+  background: rgba(255, 255, 255, 0.8); padding: 8px 20px;
+  border-radius: 24px; display: inline-block;
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  margin-bottom:18px;
 }
-
+.viewer-bio{
+  font-size:0.88rem;
+  line-height:1.65;
+  color:#333;
+  text-align:left;
+  width:100%;
+  background:rgba(255,255,255,0.55);
+  border-radius:20px;
+  padding:14px 16px;
+  margin-bottom:22px;
+}
 .viewer-btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 56px; height: 56px; border-radius: 50%;
@@ -255,9 +253,8 @@ body {
 .viewer-btn.prev { left: 10%; }
 .viewer-btn.next { right: 10%; }
 .viewer-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-
 .viewer-trigger {
-  margin-top: 30px; z-index: 10; position: relative;
+  z-index: 10; position: relative;
   background: var(--blue); color: white; border: none;
   padding: 12px 28px; border-radius: 30px; font-size: 1rem; font-weight: 600;
   cursor: pointer; transition: all 0.2s;
@@ -265,7 +262,6 @@ body {
 }
 .viewer-trigger:hover { background: #005bb5; transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0, 113, 227, 0.4); }
 .viewer-trigger:active { transform: translateY(0) scale(0.98); }
-
 .viewer-close {
   position: absolute; top: 30px; right: 30px;
   width: 44px; height: 44px; border-radius: 50%;
@@ -274,7 +270,6 @@ body {
   transition: all 0.2s; color: var(--ink);
 }
 .viewer-close:hover { background: rgba(0,0,0,0.1); transform: rotate(90deg); }
-
 /* ========== 理念区 ========== */
 .concept-section { padding: 20px var(--pad) 80px; max-width: 800px; margin: 0 auto; position: relative; z-index: 10;}
 .concept-card {
@@ -291,10 +286,8 @@ body {
 .concept-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 2; }
 .concept-text { font-size: 1rem; line-height: 1.7; color: rgba(255,255,255,0.8); position: relative; z-index: 2; }
 .concept-text span { color: var(--blue); font-weight: 600; }
-
 /* ========== 底部 ========== */
 .footer { text-align: center; padding: 20px 20px 60px; color: var(--ink-3); font-size: 0.85rem; }
-
 /* ========== 彩蛋特效 ========== */
 .fc-overlay {
   position: fixed; inset: 0; background: #000; z-index: 3000;
@@ -322,7 +315,6 @@ body {
 .fc-o { display: inline-block; width: 0.56em; height: 0.56em; border-radius: 50%; background: var(--blue); margin: 0 0.02em; vertical-align: baseline; transform: translateY(0.03em); box-shadow: 0 0 28px rgba(0, 113, 227, 0.6); animation: dotBlink 1.05s ease-in-out infinite; }
 @keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 .fc-tagline { margin-top: 20px; font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.8); letter-spacing: 0.15em; }
-
 /* ========== 响应式 ========== */
 @media (max-width: 900px) {
   .members-grid { grid-template-columns: repeat(2, 1fr); }
@@ -333,81 +325,71 @@ body {
   .hero-kicker { text-align: center; width: 100%; left: 0; top: 24px; }
   .viewer-btn.prev { left: 4%; }
   .viewer-btn.next { right: 4%; }
-  .viewer-card { width: 280px; height: 360px; }
-  .viewer-avatar { width: 130px; height: 130px; }
+  .viewer-card { width: 90vw; }
+  .viewer-avatar { width: 120px; height: 120px; }
   .viewer-name { font-size: 1.6rem; }
 }
 </style>
 </head>
 <body>
-
 <!-- ========== 顶部胶囊导航 ========== -->
 <header class="site-header" id="siteHeader">
   <div class="header-title" id="headerTitle">Momocat</div>
   <div class="mode-switcher" id="modeSwitcher">
     <button class="mode-option" data-mode="home" aria-label="主页">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/>
+        <path d="M3 10.5L12 3l9 7.5" /><path d="M5 9.5V21h14V9.5" /><path d="M9.5 21v-6h5v6" />
       </svg>
       <span>主页</span>
     </button>
     <button class="mode-option active" data-mode="covalent" aria-label="共用电子队">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/>
+        <circle cx="8" cy="12" r="4" /><circle cx="16" cy="12" r="4" />
       </svg>
       <span>共用电子队</span>
     </button>
   </div>
 </header>
-
 <!-- ========== 主内容 ========== -->
 <div class="main-content" id="mainContent">
-
   <!-- Hero 区域 -->
   <section class="hero">
     <div class="hero-kicker">燕山高级中学 · 高一20班</div>
-    
+
     <!-- 这里已经精确替换为你要求的文件名 -->
     <img src="中文队名black.PNG" alt="共用电子队" class="hero-title-img">
     <img src="英文队名black.PNG" alt="Covalent" class="hero-subtitle-img">
-
     <!-- 运动会组照 -->
     <div class="group-photo-container">
       <img src="运动会组员照.jpg" alt="运动会组员合影" class="group-photo">
     </div>
   </section>
-
   <!-- 成员展示区 (四个小卡片) -->
   <section class="members-section">
     <div class="members-grid">
-      
+
       <div class="member-card card-lxy" onclick="openViewer(0)">
         <img src="李翔禹.PNG" alt="李翔禹" class="member-avatar">
         <div class="member-name">李翔禹</div>
         <div class="member-role">组长 · 核心原子</div>
       </div>
-
       <div class="member-card card-wrx" onclick="openViewer(1)">
         <img src="王如轩.PNG" alt="王如轩" class="member-avatar">
         <div class="member-name">王如轩</div>
         <div class="member-role">组员 · 活力电子</div>
       </div>
-
       <div class="member-card card-ybn" onclick="openViewer(2)">
         <img src="于炳楠.PNG" alt="于炳楠" class="member-avatar">
         <div class="member-name">于炳楠</div>
         <div class="member-role">组员 · 稳态电子</div>
       </div>
-
       <div class="member-card card-xr" onclick="openViewer(3)">
         <img src="向睿.PNG" alt="向睿" class="member-avatar">
         <div class="member-name">向睿</div>
         <div class="member-role">组员 · 探索电子</div>
       </div>
-
     </div>
   </section>
-
   <!-- 理念区 -->
   <section class="concept-section">
     <div class="concept-card">
@@ -418,36 +400,31 @@ body {
       </p>
     </div>
   </section>
-
   <footer class="footer">
     © 2026 共用电子队 Covalent. 燕山高级中学高一20班.
   </footer>
-
 </div>
-
 <!-- ========== 全屏查看器 (点击卡片后打开) ========== -->
 <div class="viewer-overlay" id="viewerOverlay">
   <button class="viewer-close" id="viewerClose">✕</button>
-  
-  <div class="viewer-glow" id="viewerGlow"></div>
 
+  <div class="viewer-glow" id="viewerGlow"></div>
   <button class="viewer-btn prev" id="viewerPrev" aria-label="上一个">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
-  
+
   <div class="viewer-card" id="viewerCard">
     <img src="" alt="" class="viewer-avatar" id="viewerAvatar">
     <div class="viewer-name" id="viewerName"></div>
     <div class="viewer-role" id="viewerRole"></div>
-    
+    <div class="viewer-bio" id="viewerBio"></div>
+
     <button class="viewer-trigger" id="viewerTrigger">⚡ 接入轨道</button>
   </div>
-
   <button class="viewer-btn next" id="viewerNext" aria-label="下一个">
     <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 </div>
-
 <!-- ========== 全屏彩蛋弹窗 ========== -->
 <div class="fc-overlay" id="fcOverlay">
   <div id="fcStage" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
@@ -457,17 +434,14 @@ body {
     </div>
   </div>
 </div>
-
 <script>
 (function () {
   'use strict';
-
   /* 导航胶囊交互 */
   const header = document.getElementById('siteHeader');
   const title = document.getElementById('headerTitle');
   const switcher = document.getElementById('modeSwitcher');
   let hoverTimer = null;
-
   header.addEventListener('mouseenter', () => {
     clearTimeout(hoverTimer);
     switcher.style.opacity = '1';
@@ -490,42 +464,66 @@ body {
        switcher.style.opacity = '1'; switcher.style.maxWidth = '340px'; switcher.style.pointerEvents = 'auto';
     }
   });
-  
+
   document.querySelectorAll('.mode-option').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (btn.dataset.mode === 'home') window.location.href = 'https://momocat.online'; 
+      if (btn.dataset.mode === 'home') window.location.href = 'https://momocat.online';
     });
   });
-
   /* 成员数据与查看器逻辑 */
   const membersData = [
-    { name: '李翔禹', role: '组长 · 核心原子', img: '李翔禹.PNG', color: 'rgba(56, 189, 248, 0.35)', bg: 'linear-gradient(135deg, rgba(224, 242, 254, 0.95), rgba(186, 230, 253, 0.95))' },
-    { name: '王如轩', role: '组员 · 活力电子', img: '王如轩.PNG', color: 'rgba(244, 114, 182, 0.35)', bg: 'linear-gradient(135deg, rgba(252, 231, 243, 0.95), rgba(220, 252, 231, 0.95))' },
-    { name: '于炳楠', role: '组员 · 稳态电子', img: '于炳楠.PNG', color: 'rgba(168, 85, 247, 0.35)', bg: 'linear-gradient(135deg, rgba(224, 231, 255, 0.95), rgba(243, 232, 255, 0.95))' },
-    { name: '向睿',   role: '组员 · 探索电子', img: '向睿.PNG',   color: 'rgba(59, 130, 246, 0.25)', bg: 'linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.98))' }
+    {
+      name: '李翔禹',
+      role: '组长 · 核心原子',
+      img: '李翔禹.PNG',
+      color: 'rgba(56, 189, 248, 0.35)',
+      bg: 'linear-gradient(135deg, rgba(224, 242, 254, 0.95), rgba(186, 230, 253, 0.95))',
+      bio:`✨李翔禹｜莫川<br>💬os：你们的个人简介好正式我都不知道说什么了。。。<br>📚超强学习能力：第一次月考中取得全校第六。以班级选科赋分第一的优异成绩成功考入大清北重点班<br>🤝超强交流能力：主动对接校长沟通谈判，成功将学校社团课从原有课时增加至两节<br>🎂年龄15.5｜对称的424生日（323也对称）<br>🎧爱好：illit、kpop热衷，ENFP，咖啡、代码和草地<br>🌙我的终极境界：在工作室旁边的loft里面睡大觉<br>🃏莫川一无是处 编说乐幽 应该能猜出来吧？`
+    },
+    {
+      name: '王如轩',
+      role: '组员 · 活力电子',
+      img: '王如轩.PNG',
+      color: 'rgba(244, 114, 182, 0.35)',
+      bg: 'linear-gradient(135deg, rgba(252, 231, 243, 0.95), rgba(220, 252, 231, 0.95))',
+      bio:`称号-王王王<br>分类-飞鸟类兼哺乳动物<br>年龄-15.7<br>星座-水缸座<br>身高-∞<br>mbti-intj<br>爱好-无常好 猎广也<br>生日-0601.0125.0304.0923数字炸弹 炸了你就赢了\_(ツ)_/<br>个性签名-君子博学于文 约之以礼`
+    },
+    {
+      name: '于炳楠',
+      role: '组员 · 稳态电子',
+      img: '于炳楠.PNG',
+      color: 'rgba(168, 85, 247, 0.35)',
+      bg: 'linear-gradient(135deg, rgba(224, 231, 255, 0.95), rgba(243, 232, 255, 0.95))',
+      bio:`于炳楠 鱼饼🍡<br>绝望的骑公。一个努力生活的小乐乐🫡<br>🥚日：11.1.4 和向睿同一天👍<br>自认为比较幽默 经常鬼脑发动🤔😮☝🏻<br>土象摩羯♑enfp🐶<br>地表最强170（😂不接受任何质疑与反驳）<br>人生格言 一步一跪一磕头👛只求钱包越来越鼓💰<br>os：此人毕业论文竟如此之短🖕🏼`
+    },
+    {
+      name: '向睿',
+      role: '组员 · 探索电子',
+      img: '向睿.PNG',
+      color: 'rgba(59, 130, 246, 0.25)',
+      bg: 'linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.98))',
+      bio:`💘个人档案<br>Hello我是向睿.....<br>#内敛不爱表达#安静#心软#反差(不解释)#有点搞笑吧?(≧▽≤)<br>爱听歌、喜欢音乐、发呆、亲近大自然，好奇世间一切事物<br>心愿:希望学业有成<br>座右铭:道阻且长，行则将至`
+    }
   ];
-
   const viewerOverlay = document.getElementById('viewerOverlay');
   const viewerCard = document.getElementById('viewerCard');
   const viewerGlow = document.getElementById('viewerGlow');
   const viewerAvatar = document.getElementById('viewerAvatar');
   const viewerName = document.getElementById('viewerName');
   const viewerRole = document.getElementById('viewerRole');
+  const viewerBio = document.getElementById('viewerBio');
   const viewerPrev = document.getElementById('viewerPrev');
   const viewerNext = document.getElementById('viewerNext');
   const viewerClose = document.getElementById('viewerClose');
   const viewerTrigger = document.getElementById('viewerTrigger');
-
   let currentIndex = 0;
   let isAnimating = false;
-
   window.openViewer = function(index) {
     currentIndex = index;
     updateViewerContent(false);
     viewerOverlay.classList.add('show');
   };
-
   function closeViewer() {
     viewerOverlay.classList.remove('show');
   }
@@ -533,22 +531,21 @@ body {
   viewerOverlay.addEventListener('click', (e) => {
     if (e.target === viewerOverlay) closeViewer();
   });
-
   function updateViewerContent(isSwitching) {
     const data = membersData[currentIndex];
-    
+
     const applyContent = () => {
       viewerAvatar.src = data.img;
       viewerName.innerText = data.name;
       viewerRole.innerText = data.role;
+      viewerBio.innerHTML = data.bio;
       viewerCard.style.background = data.bg;
       viewerGlow.style.background = data.color;
     };
-
     if (isSwitching) {
       isAnimating = true;
       viewerCard.classList.add('switching');
-      
+
       setTimeout(() => {
         applyContent();
         viewerCard.classList.remove('switching');
@@ -558,73 +555,60 @@ body {
       applyContent();
     }
   }
-
   viewerPrev.addEventListener('click', () => {
     if (isAnimating) return;
     currentIndex = (currentIndex - 1 + membersData.length) % membersData.length;
     updateViewerContent(true);
   });
-
   viewerNext.addEventListener('click', () => {
     if (isAnimating) return;
     currentIndex = (currentIndex + 1) % membersData.length;
     updateViewerContent(true);
   });
-
   document.addEventListener('keydown', (e) => {
     if (!viewerOverlay.classList.contains('show')) return;
     if (e.key === 'ArrowLeft') viewerPrev.click();
     if (e.key === 'ArrowRight') viewerNext.click();
     if (e.key === 'Escape') closeViewer();
   });
-
   viewerTrigger.addEventListener('click', () => {
     const currentName = membersData[currentIndex].name;
     triggerEasterEgg(currentName);
   });
-
   /* 全屏彩蛋特效 */
   const EMOJIS = ['⚛️', '🔗', '🔵', '🟣', '🟢', '⚡️', '✨', '🧬', '🔬', '💡', '🎈', '🫧', '🧿', '🔮'];
   const fcOverlay = document.getElementById('fcOverlay');
   const fcStage = document.getElementById('fcStage');
   const eggText = document.getElementById('eggText');
-
   function triggerEasterEgg(name) {
     if(name) eggText.textContent = name + " · 已接入轨道";
     else eggText.textContent = "协同成键";
-
     fcStage.querySelectorAll('.fc-emoji').forEach(el => el.remove());
-
     const count = 30;
     for (let i = 0; i < count; i++) {
       const el = document.createElement('span');
       el.className = 'fc-emoji';
       el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-      
+
       const size = 1.5 + Math.random() * 3;
       const rot  = (Math.random() * 70 - 35).toFixed(1);
       const dly  = (Math.random() * 0.5).toFixed(2);
-
       el.style.setProperty('--s', size.toFixed(2) + 'rem');
       el.style.setProperty('--r', rot + 'deg');
       el.style.setProperty('--d', dly + 's');
       el.style.left = (5 + Math.random() * 90).toFixed(1) + '%';
       el.style.top  = (5 + Math.random() * 90).toFixed(1) + '%';
-
       fcStage.appendChild(el);
     }
-
     fcOverlay.classList.add('show');
-    
+
     setTimeout(() => {
       fcOverlay.classList.remove('show');
     }, 3200);
   }
-
   fcOverlay.addEventListener('click', () => {
     fcOverlay.classList.remove('show');
   });
-
 })();
 </script>
 </body>
